@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DecisionLabRouteImport } from './routes/decision-lab'
+import { Route as RecommendationRouteImport } from './routes/recommendation'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DecisionLabRoute = DecisionLabRouteImport.update({
+  id: '/decision-lab',
+  path: '/decision-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationRoute = RecommendationRouteImport.update({
+  id: '/recommendation',
+  path: '/recommendation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/decision-lab': typeof DecisionLabRoute
+  '/recommendation': typeof RecommendationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/decision-lab': typeof DecisionLabRoute
+  '/recommendation': typeof RecommendationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/decision-lab': typeof DecisionLabRoute
+  '/recommendation': typeof RecommendationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/decision-lab' | '/recommendation'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/decision-lab' | '/recommendation'
+  id: '__root__' | '/' | '/decision-lab' | '/recommendation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DecisionLabRoute: typeof DecisionLabRoute
+  RecommendationRoute: typeof RecommendationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/decision-lab': {
+      id: '/decision-lab'
+      path: '/decision-lab'
+      fullPath: '/decision-lab'
+      preLoaderRoute: typeof DecisionLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendation': {
+      id: '/recommendation'
+      path: '/recommendation'
+      fullPath: '/recommendation'
+      preLoaderRoute: typeof RecommendationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DecisionLabRoute: DecisionLabRoute,
+  RecommendationRoute: RecommendationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
