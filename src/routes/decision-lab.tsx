@@ -5,7 +5,7 @@ import { DatasetSelector } from "@/components/algo/DatasetSelector";
 import { DatasetPreview } from "@/components/algo/DatasetPreview";
 import { RequirementSelector } from "@/components/algo/RequirementSelector";
 import { RecommendationCard } from "@/components/algo/RecommendationCard";
-import { MOCK_RECOMMENDATION } from "@/lib/algo/mock";
+import { getRecommendation } from "@/lib/algo/recommend";
 import type { DatasetConfig, RequirementConfig } from "@/lib/algo/types";
 
 export const Route = createFileRoute("/decision-lab")({
@@ -30,7 +30,9 @@ function DecisionLab() {
     memoryPriority: "high",
     speedPriority: "balanced",
     scale: "small",
+    
   });
+  const recommendation = getRecommendation(dataset, requirements);
 
   return (
     <div className="space-y-8">
@@ -50,10 +52,7 @@ function DecisionLab() {
 
       <div className="space-y-3">
         <p className="mono-label">Recommendation preview</p>
-        <RecommendationCard recommendation={MOCK_RECOMMENDATION} />
-        <p className="text-xs text-muted-foreground">
-          Placeholder result — the recommendation engine is not connected yet, so these numbers are illustrative.
-        </p>
+        <RecommendationCard recommendation={recommendation} />
       </div>
     </div>
   );
